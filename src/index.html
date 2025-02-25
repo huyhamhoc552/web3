@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List DApp</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <h1>To-Do List DApp</h1>
+    <input type="text" id="taskInput" placeholder="Nhập công việc mới">
+    <button onclick="addTask()">Thêm Task</button>
+    <ul id="taskList"></ul>
+
+    <!-- Thư viện Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
+    <!-- File JavaScript của bạn -->
+    <script src="app.js"></script>
+</body>
+</html>
