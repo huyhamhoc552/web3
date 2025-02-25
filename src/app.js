@@ -84,7 +84,7 @@ const contractABI = [
 ];
 
 // Thay bằng địa chỉ hợp đồng sau khi migrate
-const contractAddress = "0x5f60191bd8DB99Ad8a84961EE7783dF86B7e71B2"; // Ví dụ: "0x1234..."
+const contractAddress = "0x851CE4cc7B0823f7ea04A87501DE307b8EaEd8ea"; // Ví dụ: "0x1234..."
 const todoList = new web3.eth.Contract(contractABI, contractAddress);
 
 // Lấy tài khoản từ Ganache (dùng tài khoản đầu tiên)
