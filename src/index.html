@@ -5,17 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List DApp</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 10px 0; }
-        .completed { text-decoration: line-through; color: gray; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #taskInput:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        ul#taskList {
+            list-style-type: none;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        li:hover {
+            background: #f1f1f1;
+        }
+
+        .task-content {
+            flex: 1;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #7f8c8d;
+        }
+
+        li button {
+            background-color: #2ecc71;
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        li button:hover {
+            background-color: #27ae60;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>To-Do List DApp</h1>
-    <input type="text" id="taskInput" placeholder="Nhập công việc mới">
-    <button onclick="addTask()">Thêm Task</button>
-    <ul id="taskList"></ul>
+    <div class="container">
+        <h1>To-Do List DApp</h1>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Nhập công việc mới">
+            <button onclick="addTask()">Thêm Task</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
 
     <!-- Thư viện Web3.js -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.4/dist/web3.min.js"></script>
