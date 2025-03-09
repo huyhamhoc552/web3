@@ -1,100 +1,44 @@
 // Kết nối với Ganache
 const web3 = new Web3('http://127.0.0.1:7545');
 
-// Thay bằng ABI của hợp đồng của bạn (lấy từ file build/TodoList.json sau khi migrate)
-const contractABI = [
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tasks",
-    "outputs": [
-      {
-        "name": "content",
-        "type": "string"
-      },
-      {
-        "name": "completed",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function",
-    "signature": "0x8d977672"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_content",
-        "type": "string"
-      }
-    ],
-    "name": "addTask",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0x67238562"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "completeTask",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xe1e29558"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getTask",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function",
-    "signature": "0x1d65e77e"
+let todoList;
+
+async function loadContract() {
+  try {
+    const todoListData = await $.getJSON('TodoList.json');
+    const contractABI = todoListData.abi;
+    const networkId = "5777";
+    const contractAddress = todoListData.networks[networkId]?.address;
+
+    if (!contractAddress) {
+      console.error(`Contract not deployed on network ${networkId}`);
+      return false;
+    }
+
+    todoList = new web3.eth.Contract(contractABI, contractAddress);
+    console.log("Contract ABI:", contractABI);
+    console.log("Contract Address:", contractAddress);
+    return true;
+  } catch (error) {
+    console.error("Lỗi tải contract:", error);
+    return false;
   }
-];
+}
 
-// Thay bằng địa chỉ hợp đồng sau khi migrate
-const contractAddress = "0x851CE4cc7B0823f7ea04A87501DE307b8EaEd8ea"; // Ví dụ: "0x1234..."
-const todoList = new web3.eth.Contract(contractABI, contractAddress);
 
-// Lấy tài khoản từ Ganache (dùng tài khoản đầu tiên)
-let accounts;
-web3.eth.getAccounts().then(acc => {
-    accounts = acc;
-    console.log("Tài khoản mặc định:", accounts[0]);
-});
+async function loadAccounts() {
+  try {
+    web3.eth.getAccounts().then(acc => {
+      accounts = acc;
+      console.log("Tài khoản mặc định:", accounts[0]);
+      return accounts
+  });
+  } catch (error) {
+    console.error("Lỗi lấy tài khoản:", error);
+    return null;
+  }
+}
 
-// Hiển thị danh sách task
 async function loadTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = ""; // Xóa danh sách cũ
@@ -139,5 +83,10 @@ async function completeTask(index) {
     }
 }
 
-// Tải danh sách task khi trang được mở
-window.onload = loadTasks;
+window.onload = async () => {
+  const contractLoaded = await loadContract();
+  const accountsLoaded = await loadAccounts();
+  if (contractLoaded) {
+    await loadTasks();
+  }
+};
